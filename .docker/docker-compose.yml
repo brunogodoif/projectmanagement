@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile
+    image: projectmanagement:1.0.0
+    container_name: projectmanagement-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/projectmanagement
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - db
+    networks:
+      - projectmanagement-network
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    container_name: projectmanagement-db
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_DB=projectmanagement
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - projectmanagement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  projectmanagement-network:
+    driver: bridge
