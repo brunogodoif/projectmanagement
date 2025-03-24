@@ -1,12 +1,14 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class User {
     private UUID id;
     private String username;
@@ -107,26 +109,11 @@ public class User {
         }
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = (id != null) ? id : UUID.randomUUID();
-    }
-
-    public String getUsername() {
-        return username;
-    }
 
     public void setUsername(String username) {
         validateUsername(username);
         this.username = username;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -135,18 +122,10 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         validateEmail(email);
         this.email = email;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getFullName() {
-        return fullName;
     }
 
     public void setFullName(String fullName) {
@@ -154,17 +133,9 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
-
     public void setRoles(List<String> roles) {
         this.roles = (roles != null) ? roles : new ArrayList<>();
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     public void setEnabled(boolean enabled) {
@@ -172,16 +143,8 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {

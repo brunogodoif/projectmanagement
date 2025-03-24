@@ -1,12 +1,13 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+@Getter
 public class Client {
     private UUID id;
     private String name;
@@ -87,16 +88,8 @@ public class Client {
         this.projects.add(project);
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public void setId(UUID id) {
         this.id = (id != null) ? id : UUID.randomUUID();
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
@@ -105,18 +98,10 @@ public class Client {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         validateEmail(email);
         this.email = email;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
     public void setPhone(String phone) {
@@ -124,17 +109,10 @@ public class Client {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public void setAddress(String address) {
@@ -142,33 +120,17 @@ public class Client {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public void setActive(boolean active) {
         this.active = active;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public List<Project> getProjects() {
-        return projects;
     }
 
     public void setProjects(List<Project> projects) {

@@ -1,13 +1,14 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+@Getter
 public class Project {
     private UUID id;
     private String name;
@@ -117,16 +118,8 @@ public class Project {
         this.activities.add(activity);
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public void setId(UUID id) {
         this.id = (id != null) ? id : UUID.randomUUID();
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
@@ -135,17 +128,9 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public Client getClient() {
-        return client;
     }
 
     public void setClient(Client client) {
@@ -154,18 +139,10 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
     public void setStartDate(LocalDate startDate) {
         validateDates(startDate, this.endDate);
         this.startDate = startDate;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
     }
 
     public void setEndDate(LocalDate endDate) {
@@ -174,18 +151,10 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public ProjectStatus getStatus() {
-        return status;
-    }
-
     public void setStatus(ProjectStatus status) {
         validateStatus(status);
         this.status = status;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getManager() {
-        return manager;
     }
 
     public void setManager(String manager) {
@@ -193,17 +162,9 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
     public void setNotes(String notes) {
         this.notes = notes;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
     }
 
     public void setDeleted(boolean deleted) {
@@ -211,24 +172,12 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public List<Activity> getActivities() {
-        return activities;
     }
 
     public void setActivities(List<Activity> activities) {

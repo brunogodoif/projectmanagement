@@ -1,11 +1,12 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Getter
 public class Activity {
     private UUID id;
     private String title;
@@ -95,16 +96,8 @@ public class Activity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public void setId(UUID id) {
         this.id = (id != null) ? id : UUID.randomUUID();
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
@@ -113,17 +106,9 @@ public class Activity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public Project getProject() {
-        return project;
     }
 
     public void setProject(Project project) {
@@ -132,17 +117,9 @@ public class Activity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public String getAssignedTo() {
-        return assignedTo;
     }
 
     public void setAssignedTo(String assignedTo) {
@@ -150,26 +127,14 @@ public class Activity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
     public void setCompleted(boolean completed) {
         this.completed = completed;
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
     public void setPriority(String priority) {
         this.priority = priority;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public int getEstimatedHours() {
-        return estimatedHours;
     }
 
     public void setEstimatedHours(int estimatedHours) {
@@ -180,16 +145,8 @@ public class Activity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
