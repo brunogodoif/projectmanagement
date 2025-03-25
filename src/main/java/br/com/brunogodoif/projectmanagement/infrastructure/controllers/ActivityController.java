@@ -1,6 +1,7 @@
 package br.com.brunogodoif.projectmanagement.infrastructure.controllers;
 
 import br.com.brunogodoif.projectmanagement.application.usecases.activity.DeleteActivityUseCase;
+import br.com.brunogodoif.projectmanagement.domain.dtos.ActivityInputDTO;
 import br.com.brunogodoif.projectmanagement.domain.entities.Activity;
 import br.com.brunogodoif.projectmanagement.domain.usecases.DeleteEntityInterface;
 import br.com.brunogodoif.projectmanagement.domain.usecases.activity.CreateActivityInterface;
@@ -50,14 +51,19 @@ public class ActivityController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Operation(summary = "Create a new activity")
     public ResponseEntity<ActivityResponse> createActivity(@Valid @RequestBody ActivityRequest request) {
-        Activity activity = activityMapper.toDomain(request);
+        ActivityInputDTO activityInputDTO = ActivityInputDTO.builder()
+                                                            .id(UUID.randomUUID())
+                                                            .title(request.title())
+                                                            .description(request.description())
+                                                            .projectId(request.projectId())
+                                                            .dueDate(request.dueDate())
+                                                            .assignedTo(request.assignedTo())
+                                                            .completed(request.completed())
+                                                            .priority(request.priority())
+                                                            .estimatedHours(request.estimatedHours())
+                                                            .build();
 
-        if (request.projectId() != null) {
-            activity.setProject(new br.com.brunogodoif.projectmanagement.domain.entities.Project());
-            activity.getProject().setId(request.projectId());
-        }
-
-        Activity createdActivity = createActivityUseCase.execute(activity);
+        Activity createdActivity = createActivityUseCase.execute(activityInputDTO);
         return new ResponseEntity<>(activityMapper.toResponse(createdActivity), HttpStatus.CREATED);
     }
 
@@ -83,14 +89,18 @@ public class ActivityController {
     public ResponseEntity<ActivityResponse> updateActivity(@PathVariable UUID id,
                                                            @Valid @RequestBody ActivityRequest request
                                                           ) {
-        Activity activity = activityMapper.toDomain(request);
+        ActivityInputDTO activityInputDTO = ActivityInputDTO.builder()
+                                                            .title(request.title())
+                                                            .description(request.description())
+                                                            .projectId(request.projectId())
+                                                            .dueDate(request.dueDate())
+                                                            .assignedTo(request.assignedTo())
+                                                            .completed(request.completed())
+                                                            .priority(request.priority())
+                                                            .estimatedHours(request.estimatedHours())
+                                                            .build();
 
-        if (request.projectId() != null) {
-            activity.setProject(new br.com.brunogodoif.projectmanagement.domain.entities.Project());
-            activity.getProject().setId(request.projectId());
-        }
-
-        Activity updatedActivity = updateActivityUseCase.execute(id, activity);
+        Activity updatedActivity = updateActivityUseCase.execute(id, activityInputDTO);
         return ResponseEntity.ok(activityMapper.toResponse(updatedActivity));
     }
 

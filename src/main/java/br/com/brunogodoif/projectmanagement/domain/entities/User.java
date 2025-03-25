@@ -1,6 +1,7 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import br.com.brunogodoif.projectmanagement.domain.utils.ValidationUtils;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -77,7 +78,7 @@ public class User {
         if (email == null || email.trim().isEmpty()) {
             throw new BusinessValidationException("Email is required");
         }
-        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (!ValidationUtils.isValidEmail(email)) {
             throw new BusinessValidationException("Invalid email format");
         }
     }

@@ -2,6 +2,7 @@ package br.com.brunogodoif.projectmanagement.application.usecases.activity;
 
 import br.com.brunogodoif.projectmanagement.application.gateways.ActivityGatewayInterface;
 import br.com.brunogodoif.projectmanagement.application.gateways.ProjectGatewayInterface;
+import br.com.brunogodoif.projectmanagement.domain.dtos.ActivityInputDTO;
 import br.com.brunogodoif.projectmanagement.domain.entities.Activity;
 import br.com.brunogodoif.projectmanagement.domain.entities.Project;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessOperationException;
@@ -23,15 +24,27 @@ public class CreateActivityUseCase implements CreateActivityInterface {
     }
 
     @Override
-    public Activity execute(Activity activity) {
-        log.info("Creating new activity: {}", activity.getTitle());
+    public Activity execute(ActivityInputDTO activityInputDTO) {
+        log.info("Creating new activity: {}", activityInputDTO.getTitle());
 
         try {
-            Project project = projectGateway.findById(activity.getProject().getId())
-                                            .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + activity.getProject()
-                                                                                                                                   .getId()));
+            Project project = projectGateway.findById(activityInputDTO.getProjectId())
+                                            .orElseThrow(() -> new EntityNotFoundException(
+                                                    "Project not found with ID: " + activityInputDTO.getProjectId()));
 
-            activity.setProject(project);
+            Activity activity = new Activity(
+                    activityInputDTO.getId(),
+                    activityInputDTO.getTitle(),
+                    activityInputDTO.getDescription(),
+                    project,
+                    activityInputDTO.getDueDate(),
+                    activityInputDTO.getAssignedTo(),
+                    activityInputDTO.isCompleted(),
+                    activityInputDTO.getPriority(),
+                    activityInputDTO.getEstimatedHours(),
+                    null,
+                    null
+            );
 
             return activityGateway.save(activity);
         } catch (EntityNotFoundException e) {

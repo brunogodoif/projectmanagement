@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 @Log4j2
@@ -35,7 +35,7 @@ public class JwtTokenProvider {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         List<String> roles = userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                                          .collect(Collectors.toList());
+                                          .toList();
 
         return Jwts.builder().setSubject(userPrincipal.getUsername()).claim("roles", roles).setIssuedAt(new Date())
                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))

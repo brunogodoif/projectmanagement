@@ -1,6 +1,7 @@
 package br.com.brunogodoif.projectmanagement.infrastructure.controllers;
 
 import br.com.brunogodoif.projectmanagement.application.usecases.client.DeleteClientUseCase;
+import br.com.brunogodoif.projectmanagement.domain.dtos.ClientInputDTO;
 import br.com.brunogodoif.projectmanagement.domain.entities.Client;
 import br.com.brunogodoif.projectmanagement.domain.usecases.DeleteEntityInterface;
 import br.com.brunogodoif.projectmanagement.domain.usecases.client.CreateClientInterface;
@@ -50,8 +51,18 @@ public class ClientController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new client")
     public ResponseEntity<ClientResponse> createClient(@Valid @RequestBody ClientRequest request) {
-        Client client = clientMapper.toDomain(request);
-        Client createdClient = createClientUseCase.execute(client);
+
+        ClientInputDTO clientInputDTO = ClientInputDTO.builder()
+                                                      .id(UUID.randomUUID())
+                                                      .name(request.name())
+                                                      .email(request.email())
+                                                      .phone(request.phone())
+                                                      .companyName(request.companyName())
+                                                      .address(request.address())
+                                                      .active(request.active())
+                                                      .build();
+
+        Client createdClient = createClientUseCase.execute(clientInputDTO);
         return new ResponseEntity<>(clientMapper.toResponse(createdClient), HttpStatus.CREATED);
     }
 
@@ -77,8 +88,16 @@ public class ClientController {
     public ResponseEntity<ClientResponse> updateClient(@PathVariable UUID id,
                                                        @Valid @RequestBody ClientRequest request
                                                       ) {
-        Client client = clientMapper.toDomain(request);
-        Client updatedClient = updateClientUseCase.execute(id, client);
+        ClientInputDTO clientInputDTO = ClientInputDTO.builder()
+                                                      .name(request.name())
+                                                      .email(request.email())
+                                                      .phone(request.phone())
+                                                      .companyName(request.companyName())
+                                                      .address(request.address())
+                                                      .active(request.active())
+                                                      .build();
+
+        Client updatedClient = updateClientUseCase.execute(id, clientInputDTO);
         return ResponseEntity.ok(clientMapper.toResponse(updatedClient));
     }
 

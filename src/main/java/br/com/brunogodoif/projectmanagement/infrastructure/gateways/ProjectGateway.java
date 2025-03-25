@@ -113,8 +113,7 @@ public class ProjectGateway implements ProjectGatewayInterface {
             ProjectEntity project = projectRepository.findById(id)
                                                      .orElseThrow(() -> new EntityNotFoundException("Project with ID " + id + " not found"));
 
-            project.setDeleted(true);
-            projectRepository.save(project);
+            projectRepository.delete(project);
         } catch (EntityNotFoundException | IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {

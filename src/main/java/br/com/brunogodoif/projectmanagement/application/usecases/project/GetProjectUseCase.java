@@ -33,10 +33,27 @@ public class GetProjectUseCase implements GetProjectInterface {
 
         List<Activity> activities = activityGateway.findByProjectId(id);
 
-        project.setActivities(activities);
+        Project projectWithActivities = new Project(
+                project.getId(),
+                project.getName(),
+                project.getDescription(),
+                project.getClient(),
+                project.getStartDate(),
+                project.getEndDate(),
+                project.getStatus(),
+                project.getManager(),
+                project.getNotes(),
+                project.isDeleted(),
+                project.getCreatedAt(),
+                project.getUpdatedAt()
+        );
+
+        for (Activity activity : activities) {
+            projectWithActivities.addActivity(activity);
+        }
 
         log.info("Found project with ID: {} with {} activities", id, activities.size());
 
-        return project;
+        return projectWithActivities;
     }
 }

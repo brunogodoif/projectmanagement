@@ -14,6 +14,8 @@ public record ClientRequest(
 
         @Schema(description = "Company name of the client", required = true, example = "ABC Corporation Inc.") @NotBlank(message = "Company name is required") String companyName,
 
-        @Schema(description = "Physical address of the client", required = true, example = "123 Main St, Anytown, USA") @NotBlank(message = "Address is required") String address
+        @Schema(description = "Physical address of the client", required = true, example = "123 Main St, Anytown, USA") @NotBlank(message = "Address is required") String address,
+
+        @Schema(description = "Client status (active/inactive)", defaultValue = "true", example = "true") boolean active
 ) {
 }

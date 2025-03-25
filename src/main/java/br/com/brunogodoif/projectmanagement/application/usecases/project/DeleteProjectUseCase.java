@@ -3,7 +3,6 @@ package br.com.brunogodoif.projectmanagement.application.usecases.project;
 import br.com.brunogodoif.projectmanagement.application.gateways.ActivityGatewayInterface;
 import br.com.brunogodoif.projectmanagement.application.gateways.ProjectGatewayInterface;
 import br.com.brunogodoif.projectmanagement.domain.entities.Activity;
-import br.com.brunogodoif.projectmanagement.domain.entities.Project;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessOperationException;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.EntityInUseException;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.EntityNotFoundException;
@@ -31,8 +30,8 @@ public class DeleteProjectUseCase implements DeleteEntityInterface<UUID> {
         log.info("Deleting project with ID: {}", id);
 
         try {
-            Project project = projectGateway.findById(id)
-                                            .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + id));
+            projectGateway.findById(id)
+                          .orElseThrow(() -> new EntityNotFoundException("Project not found with ID: " + id));
 
             List<Activity> activities = activityGateway.findByProjectId(id);
             if (!activities.isEmpty()) {

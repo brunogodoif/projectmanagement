@@ -2,7 +2,6 @@ package br.com.brunogodoif.projectmanagement.application.usecases.client;
 
 import br.com.brunogodoif.projectmanagement.application.gateways.ClientGatewayInterface;
 import br.com.brunogodoif.projectmanagement.application.gateways.ProjectGatewayInterface;
-import br.com.brunogodoif.projectmanagement.domain.entities.Client;
 import br.com.brunogodoif.projectmanagement.domain.entities.Project;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessOperationException;
 import br.com.brunogodoif.projectmanagement.domain.exceptions.EntityInUseException;
@@ -31,7 +30,7 @@ public class DeleteClientUseCase implements DeleteEntityInterface<UUID> {
         log.info("Deleting client with ID: {}", id);
 
         try {
-            Client client = clientGateway.findById(id)
+            clientGateway.findById(id)
                                          .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + id));
 
             List<Project> projects = projectGateway.findByClientId(id);

@@ -1,6 +1,7 @@
 package br.com.brunogodoif.projectmanagement.infrastructure.controllers;
 
 import br.com.brunogodoif.projectmanagement.application.usecases.project.DeleteProjectUseCase;
+import br.com.brunogodoif.projectmanagement.domain.dtos.ProjectInputDTO;
 import br.com.brunogodoif.projectmanagement.domain.entities.Project;
 import br.com.brunogodoif.projectmanagement.domain.entities.ProjectStatus;
 import br.com.brunogodoif.projectmanagement.domain.usecases.DeleteEntityInterface;
@@ -51,14 +52,20 @@ public class ProjectController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create a new project")
     public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody ProjectRequest request) {
-        Project project = projectMapper.toDomain(request);
 
-        if (request.clientId() != null) {
-            project.setClient(new br.com.brunogodoif.projectmanagement.domain.entities.Client());
-            project.getClient().setId(request.clientId());
-        }
+        ProjectInputDTO projectInputDTO = ProjectInputDTO.builder()
+                                                         .id(UUID.randomUUID())
+                                                         .name(request.name())
+                                                         .description(request.description())
+                                                         .clientId(request.clientId())
+                                                         .startDate(request.startDate())
+                                                         .endDate(request.endDate())
+                                                         .status(request.status())
+                                                         .manager(request.manager())
+                                                         .notes(request.notes())
+                                                         .build();
 
-        Project createdProject = createProjectUseCase.execute(project);
+        Project createdProject = createProjectUseCase.execute(projectInputDTO);
         return new ResponseEntity<>(projectMapper.toResponse(createdProject), HttpStatus.CREATED);
     }
 
@@ -100,14 +107,19 @@ public class ProjectController {
     public ResponseEntity<ProjectResponse> updateProject(@PathVariable UUID id,
                                                          @Valid @RequestBody ProjectRequest request
                                                         ) {
-        Project project = projectMapper.toDomain(request);
 
-        if (request.clientId() != null) {
-            project.setClient(new br.com.brunogodoif.projectmanagement.domain.entities.Client());
-            project.getClient().setId(request.clientId());
-        }
+        ProjectInputDTO projectInputDTO = ProjectInputDTO.builder()
+                                                         .name(request.name())
+                                                         .description(request.description())
+                                                         .clientId(request.clientId())
+                                                         .startDate(request.startDate())
+                                                         .endDate(request.endDate())
+                                                         .status(request.status())
+                                                         .manager(request.manager())
+                                                         .notes(request.notes())
+                                                         .build();
 
-        Project updatedProject = updateProjectUseCase.execute(id, project);
+        Project updatedProject = updateProjectUseCase.execute(id, projectInputDTO);
         return ResponseEntity.ok(projectMapper.toResponse(updatedProject));
     }
 

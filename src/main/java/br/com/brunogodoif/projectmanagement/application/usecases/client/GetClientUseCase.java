@@ -33,8 +33,22 @@ public class GetClientUseCase implements GetClientInterface {
 
         List<Project> clientProjects = projectGateway.findByClientId(id);
 
-        client.setProjects(clientProjects);
+        Client clientWithProjects = new Client(
+                client.getId(),
+                client.getName(),
+                client.getEmail(),
+                client.getPhone(),
+                client.getCompanyName(),
+                client.getAddress(),
+                client.getCreatedAt(),
+                client.getUpdatedAt(),
+                client.isActive()
+        );
 
-        return client;
+        for (Project project : clientProjects) {
+            clientWithProjects.addProject(project);
+        }
+
+        return clientWithProjects;
     }
 }

@@ -25,7 +25,7 @@ public class DeleteActivityUseCase implements DeleteEntityInterface<UUID> {
         log.info("Deleting activity with ID: {}", id);
 
         try {
-            Activity activity = activityGateway.findById(id).orElseThrow(() -> new EntityNotFoundException(
+            activityGateway.findById(id).orElseThrow(() -> new EntityNotFoundException(
                     "Activity not found with ID: " + id));
 
             activityGateway.deleteById(id);

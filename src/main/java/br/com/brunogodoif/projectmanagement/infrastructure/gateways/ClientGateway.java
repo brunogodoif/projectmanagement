@@ -57,7 +57,7 @@ public class ClientGateway implements ClientGatewayInterface {
     @Override
     public List<Client> findAllActive() {
         try {
-            List<ClientEntity> entities = clientRepository.findByActiveTrue();
+            List<ClientEntity> entities = clientRepository.findAll();
             return clientMapper.toDomainList(entities);
         } catch (Exception e) {
             throw new DatabaseOperationException("Error finding active clients", e);
@@ -74,8 +74,7 @@ public class ClientGateway implements ClientGatewayInterface {
             ClientEntity client = clientRepository.findById(id)
                                                   .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not found"));
 
-            client.setActive(false);
-            clientRepository.save(client);
+            clientRepository.delete(client);
         } catch (EntityNotFoundException | IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package br.com.brunogodoif.projectmanagement.infrastructure.controllers;
 
 import br.com.brunogodoif.projectmanagement.infrastructure.controllers.request.AuthRequest;
 import br.com.brunogodoif.projectmanagement.infrastructure.controllers.request.UserRequest;
+import br.com.brunogodoif.projectmanagement.infrastructure.controllers.response.ApiResponse;
 import br.com.brunogodoif.projectmanagement.infrastructure.controllers.response.TokenResponse;
 import br.com.brunogodoif.projectmanagement.infrastructure.persistence.entities.UserEntity;
 import br.com.brunogodoif.projectmanagement.infrastructure.persistence.repositories.UserRepository;
@@ -61,13 +62,13 @@ public class AuthController {
 
     @PostMapping("/register")
     @Operation(summary = "Register new user")
-    public ResponseEntity<?> register(@Valid @RequestBody UserRequest request) {
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRequest request) {
         if (userRepository.existsByUsername(request.username())) {
-            return ResponseEntity.badRequest().body("Username is already taken");
+            return ResponseEntity.badRequest().body(new ApiResponse("error", "Username is already taken"));
         }
 
         if (userRepository.existsByEmail(request.email())) {
-            return ResponseEntity.badRequest().body("Email is already in use");
+            return ResponseEntity.badRequest().body(new ApiResponse("error", "Email is already in use"));
         }
 
         UserEntity user = new UserEntity();
@@ -85,6 +86,6 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(new ApiResponse("success", "User registered successfully"));
     }
 }

@@ -6,31 +6,82 @@ import br.com.brunogodoif.projectmanagement.infrastructure.controllers.response.
 import br.com.brunogodoif.projectmanagement.infrastructure.controllers.response.ClientResponse;
 import br.com.brunogodoif.projectmanagement.infrastructure.persistence.entities.ClientEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
+import java.util.ArrayList;
 import java.util.List;
 
+
 @Mapper(config = MapstructBaseConfig.class)
-public interface ClientMapper {
+public abstract class ClientMapper {
 
-    @Mapping(target = "projects", ignore = true)
-    Client toDomain(ClientEntity entity);
+    public Client toDomain(ClientEntity entity) {
+        if (entity == null) {
+            return null;
+        }
 
-    @Mapping(target = "projects", ignore = true)
-    ClientEntity toEntity(Client domain);
+        return new Client(entity.getId(),
+                          entity.getName(),
+                          entity.getEmail(),
+                          entity.getPhone(),
+                          entity.getCompanyName(),
+                          entity.getAddress(),
+                          entity.getCreatedAt(),
+                          entity.getUpdatedAt(),
+                          entity.isActive());
+    }
 
-    List<Client> toDomainList(List<ClientEntity> entities);
+    public List<Client> toDomainList(List<ClientEntity> entities) {
+        if (entities == null) {
+            return new ArrayList<>();
+        }
 
-    Client toDomain(ClientRequest request);
+        return entities.stream().map(this::toDomain).toList();
+    }
 
-    ClientResponse toResponse(Client domain);
+    public ClientEntity toEntity(Client domain) {
+        if (domain == null) {
+            return null;
+        }
 
-    List<ClientResponse> toResponseList(List<Client> domains);
+        ClientEntity entity = new ClientEntity();
+        entity.setId(domain.getId());
+        entity.setName(domain.getName());
+        entity.setEmail(domain.getEmail());
+        entity.setPhone(domain.getPhone());
+        entity.setCompanyName(domain.getCompanyName());
+        entity.setAddress(domain.getAddress());
+        entity.setCreatedAt(domain.getCreatedAt());
+        entity.setUpdatedAt(domain.getUpdatedAt());
+        entity.setActive(domain.isActive());
 
-    ClientDetailResponse toDetailResponse(Client domain);
+        return entity;
+    }
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    void updateEntityFromDomain(Client domain, @MappingTarget ClientEntity entity);
+    public Client toDomain(ClientRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        return new Client(request.name(), request.email(), request.phone(), request.companyName(), request.address());
+    }
+
+    public abstract ClientResponse toResponse(Client domain);
+
+    public abstract List<ClientResponse> toResponseList(List<Client> domains);
+
+    public abstract ClientDetailResponse toDetailResponse(Client domain);
+
+    public void updateEntityFromDomain(Client domain, ClientEntity entity) {
+        if (domain == null || entity == null) {
+            return;
+        }
+
+        entity.setName(domain.getName());
+        entity.setEmail(domain.getEmail());
+        entity.setPhone(domain.getPhone());
+        entity.setCompanyName(domain.getCompanyName());
+        entity.setAddress(domain.getAddress());
+        entity.setActive(domain.isActive());
+        entity.setUpdatedAt(domain.getUpdatedAt());
+    }
 }

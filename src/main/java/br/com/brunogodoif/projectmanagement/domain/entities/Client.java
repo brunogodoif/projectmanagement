@@ -1,6 +1,7 @@
 package br.com.brunogodoif.projectmanagement.domain.entities;
 
 import br.com.brunogodoif.projectmanagement.domain.exceptions.BusinessValidationException;
+import br.com.brunogodoif.projectmanagement.domain.utils.ValidationUtils;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -64,9 +65,9 @@ public class Client {
 
     private void validateEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
-            throw new BusinessValidationException("Client email is required");
+            throw new BusinessValidationException("Email is required");
         }
-        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (!ValidationUtils.isValidEmail(email)) {
             throw new BusinessValidationException("Invalid email format");
         }
     }
@@ -88,52 +89,4 @@ public class Client {
         this.projects.add(project);
     }
 
-    public void setId(UUID id) {
-        this.id = (id != null) ? id : UUID.randomUUID();
-    }
-
-    public void setName(String name) {
-        validateName(name);
-        this.name = name;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setEmail(String email) {
-        validateEmail(email);
-        this.email = email;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = (projects != null) ? projects : new ArrayList<>();
-    }
 }
