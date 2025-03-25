@@ -14,14 +14,14 @@ VALUES
 INSERT INTO users (id, username, password, email, full_name, enabled, created_at, updated_at)
 VALUES
     (gen_random_uuid(), 'admin', '$2a$10$CPj.VcCHOilMe5yLa1jjCOjXlXQzJZTjFvnsLiSQO9sUpZmCi2Niy', 'admin@example.com', 'Admin User', true, now(), now()),
-    (gen_random_uuid(), 'jdoe', '$2a$10$CPj.VcCHOilMe5yLa1jjCOjXlXQzJZTjFvnsLiSQO9sUpZmCi2Niy', 'jdoe@example.com', 'John Doe', true, now(), now());
+    (gen_random_uuid(), 'user', '$2a$10$CPj.VcCHOilMe5yLa1jjCOjXlXQzJZTjFvnsLiSQO9sUpZmCi2Niy', 'user@example.com', 'John Doe', true, now(), now());
 
 -- Inserir dados na tabela user_roles
 INSERT INTO user_roles (user_id, role)
 VALUES
     ((SELECT id FROM users WHERE username = 'admin'), 'ADMIN'),
     ((SELECT id FROM users WHERE username = 'admin'), 'USER'),
-    ((SELECT id FROM users WHERE username = 'jdoe'), 'USER');
+    ((SELECT id FROM users WHERE username = 'user'), 'USER');
 
 -- Inserir dados na tabela activities
 INSERT INTO activities (id, title, description, project_id, due_date, assigned_to, completed, priority, estimated_hours, created_at, updated_at)

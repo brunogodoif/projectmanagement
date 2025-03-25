@@ -100,17 +100,6 @@ public class Project {
         }
     }
 
-    public void markAsDeleted() {
-        this.isDeleted = true;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void updateStatus(ProjectStatus newStatus) {
-        validateStatus(newStatus);
-        this.status = newStatus;
-        this.updatedAt = LocalDateTime.now();
-    }
-
     public void addActivity(Activity activity) {
         if (activity == null) {
             throw new BusinessValidationException("Activity cannot be null");

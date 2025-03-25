@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,6 +61,7 @@ public class AuthController {
         return ResponseEntity.ok(new TokenResponse(jwt, userDetails.getUsername(), "Bearer"));
     }
 
+
     @PostMapping("/register")
     @Operation(summary = "Register new user")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRequest request) {
@@ -77,7 +79,14 @@ public class AuthController {
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setFullName(request.fullName());
-        user.setRoles(List.of("ROLE_USER"));
+
+        List<String> roles = new ArrayList<>();
+        if (request.roles() != null && !request.roles().isEmpty()) {
+            roles = request.roles();
+        } else {
+            roles.add("USER");
+        }
+        user.setRoles(roles);
         user.setEnabled(true);
 
         LocalDateTime now = LocalDateTime.now();

@@ -78,22 +78,4 @@ public class Activity {
         }
     }
 
-    public void markAsCompleted() {
-        this.completed = true;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void updateStatus(boolean completed) {
-        this.completed = completed;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void reassign(String assignedTo) {
-        if (assignedTo == null || assignedTo.trim().isEmpty()) {
-            throw new BusinessValidationException("Assigned person is required");
-        }
-        this.assignedTo = assignedTo;
-        this.updatedAt = LocalDateTime.now();
-    }
-
 }

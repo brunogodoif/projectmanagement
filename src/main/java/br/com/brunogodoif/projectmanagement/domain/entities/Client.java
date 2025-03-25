@@ -72,16 +72,6 @@ public class Client {
         }
     }
 
-    public void deactivate() {
-        this.active = false;
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void activate() {
-        this.active = true;
-        this.updatedAt = LocalDateTime.now();
-    }
-
     public void addProject(Project project) {
         if (project == null) {
             throw new BusinessValidationException("Project cannot be null");
