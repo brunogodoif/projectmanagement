@@ -128,6 +128,10 @@ O projeto inclui um diagrama de classes das entidades principais:
 - **Project** (Projeto)
 - **Activity** (Atividade)
 
+## Postman
+
+O projeto inclui um arquivo de collections do postman em /.postman, que pode ser importado para testar as interações com a APIS
+
 ## Desenvolvedor
 
 - Bruno F Godoi - brunofgodoi@outlook.com.br
